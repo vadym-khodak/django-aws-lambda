@@ -1,0 +1,70 @@
+service: django-aws-lambda
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-prune-plugin
+  - serverless-python-requirements
+  - serverless-wsgi
+useDotenv: true
+
+custom:
+  dotenv:
+    logging: false
+  pythonRequirements:
+    dockerizePip: non-linux
+    zip: true
+    fileName: requirements.txt
+  stage: ${env:STAGE}
+  wsgi:
+    app: django_aws_lambda.wsgi.application
+    packRequirements: false
+  prune:
+    automatic: true
+    number: 3
+
+functions:
+  - app:
+      handler: wsgi_handler.handler
+      events:
+        - http: ANY /
+        - http: ANY /{proxy+}
+      timeout: 30
+
+provider:
+  name: aws
+  role: arn:aws:iam::198784529794:role/exec_lambda
+  profile: admin
+  region: us-east-1
+  runtime: python3.8
+  versionFunctions: false
+  stage: ${env:STAGE}
+  timeout: 60
+  vpc:
+    securityGroupIds:
+      - sg-e2a9ddd5
+      - sg-01d23aa5252981a2b
+    subnetIds:
+      - subnet-5751da76
+      - subnet-36aa2369
+      - subnet-65ea6603
+      - subnet-3927f708
+      - subnet-31623e7c
+      - subnet-ff4f09f1
+  deploymentBucket:
+    name: ${env:DEPLOYMENT_BUCKET}
+  apiGateway:
+    shouldStartNameWithService: true
+  lambdaHashingVersion: 20201221
+
+package:
+  individually:
+    true
+  exclude:
+    - .cache/**
+    - .env
+    - .git/**
+    - .github/**
+    - .pytest_cache/**
+    - .serverless/**
+    - node_modules/**
+    - static/**
