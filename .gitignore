@@ -1,19 +1,19 @@
 __pycache__
-.serverless
-node_modules
+.serverless/
+node_modules/
 package-lock.json
+client/package-lock.json
 SENTRY_RELEASE
 SENTRY_AUTH_TOKEN
 .env
-### Python template
-package-lock.json
-.serverless/
 pg_data/
 *.sqlite3
 # IDE
-.idea/*
+.idea/
+.vscode/
 *iml
 
+### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -27,7 +27,7 @@ __pycache__/
 build/
 develop-eggs/
 dist/
-client/dist/
+client_old/dist/
 downloads/
 eggs/
 .eggs/
@@ -129,10 +129,10 @@ bower_components
 build/Release
 
 # Client dependencies and cache direcrories
-client/node_modules
-client/dist
-client/.cache
-client/.parcel-cache
+client_old/node_modules
+client_old/dist
+client_old/.cache
+client_old/.parcel-cache
 
 # Dependency directories
 node_modules/

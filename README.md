@@ -17,7 +17,7 @@ django-environ==0.4.5
 psycopg2-binary==2.8.6
 Werkzeug==1.0.1
 ```
-* create andactivate virtual environments
+* create and activate virtual environments
 
 > Choose your preferred tool for managing virtual environments (like conda, pyenv, virtualenv, etc.)
 
@@ -37,7 +37,7 @@ python manage.py startapp hello
 mkdir templates
 ```
 
-* create `index.html` file in `templates` folder with the following lines:
+* create `hello.html` file in `templates` folder with the following lines:
 ```html
 {% load static %}
 
@@ -69,7 +69,20 @@ from django.shortcuts import render
 # Create your views here.
 def hello(request, resource=None):
 
-    return render(request, "index.html", {"name": resource or 'World'})
+    return render(request, "hello.html", {"name": resource or 'World'})
+
+```
+* update `hello/urls.py`
+```python
+from django.urls import path
+
+from .views import hello
+
+app_name = "hello"
+urlpatterns = [
+    path("", view=hello, name="hello-world"),
+    path("<path:resource>", view=hello, name="hello-path"),
+]
 
 ```
 
@@ -346,14 +359,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-
-from hello.views import hello
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', hello),
-    path('<path:resource>', hello),
+    path('hello/', include('hello.urls')),
 ]
 
 ```
@@ -423,11 +433,11 @@ python manage.py collectstatic
 ```bash
 python manage.py runserver
 ```
-* go to [http://127.0.0.1:8000/](http://127.0.0.1:8000/) and you will see this:
+* go to [http://127.0.0.1:8000/hello/](http://127.0.0.1:8000/hello/) and you will see this:
 * 
   ![image](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/w167cb786hfj1rm956in.png)
 
-* go to [http://127.0.0.1:8000/Dev.to](http://127.0.0.1:8000/Dev.to) and you will see this:
+* go to [http://127.0.0.1:8000/hello/Dev.to](http://127.0.0.1:8000/hello/Dev.to) and you will see this:
 * 
   ![image](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/85gr40o4ipjb7yh7qj83.png)
 
