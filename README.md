@@ -451,7 +451,7 @@ npm install -P serverless-python-requirements
 npm install -P serverless-wsgi
 ```
 
-* create serverless.yaml file with the following configuration:
+* create serverless.yml file with the following configuration:
 ```yaml
 service: django-aws-lambda
 
